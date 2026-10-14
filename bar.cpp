@@ -1,7 +1,7 @@
 #include "glib-object.h"
-#include "glib.h"
 #include "glibconfig.h"
 #include "gtk/gtk.h"
+#include "gtk/gtkcssprovider.h"
 #include <cstddef>
 #include <gtk-layer-shell/gtk-layer-shell.h>
 
@@ -23,34 +23,16 @@ class Bar {
         gtk_widget_set_size_request(GTK_WIDGET(this->window), 0, BAR_HEIGHT);
         gtk_window_resize(GTK_WINDOW(this->window), 1, 1);
 
-    }
+        GtkCssProvider* cssProvider = gtk_css_provider_new();
 
-    // static gboolean updateCountdown(gpointer labelData) {
-    //     GtkWidget* label = GTK_WIDGET(labelData);
-    //     static int remaining = 5;
+        gtk_css_provider_load_from_path(cssProvider, "style.css", nullptr);
+        gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-    //     if (remaining > 0) {
-    //         char textLabel[15];
-    //         g_snprintf(textLabel, sizeof(textLabel), "Closing in %ds", remaining);
-    //         gtk_label_set_text(GTK_LABEL(label), textLabel);
-    //         remaining--;
-
-    //         return G_SOURCE_CONTINUE;
-    //     }
-
-    //     gtk_widget_destroy(gtk_widget_get_toplevel(label));
-    //     return G_SOURCE_REMOVE;
-    // }
-
-    static void updateLabel(Bar* bar) {
-        // GtkWidget* label = gtk_label_new("Closing in 5s");
-        // gtk_container_add(GTK_CONTAINER(bar->window), label);
-
-        // g_timeout_add(1000, updateCountdown, label);
+        g_object_ref(cssProvider);
     }
 
     static void attachActions(Bar* bar) {
-        updateLabel(bar);
+        
 
         g_signal_connect(bar->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     }
