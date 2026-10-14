@@ -7,6 +7,7 @@
 
 class Bar {
     static const int BAR_HEIGHT = 40;
+    GtkWidget* window;
 
     Bar(GtkWidget* window) {
         this->window = window;
@@ -31,14 +32,14 @@ class Bar {
         g_object_ref(cssProvider);
     }
 
-    static void attachActions(Bar* bar) {
-        
-
-        g_signal_connect(bar->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    void attachActions() {
+        g_signal_connect(this->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     }
 
     public:
-        GtkWidget* window;
+        GtkWidget* getWindow() {
+            return this->window;
+        }
 
         void start() {
             gtk_widget_show_all(window);
@@ -49,16 +50,18 @@ class Bar {
             gtk_widget_destroy(this->window);
         }
 
+
+
         static Bar* copy(Bar* oldBar) {
             Bar* newBar = new Bar(oldBar->window);
-            attachActions(newBar);
+            newBar->attachActions();
 
             return newBar;
         }
 
         static Bar* Create() {
             Bar* newBar = new Bar(gtk_window_new(GTK_WINDOW_TOPLEVEL));
-            attachActions(newBar);
+            newBar->attachActions();
 
             return newBar;
         }
