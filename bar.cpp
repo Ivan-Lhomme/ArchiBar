@@ -54,6 +54,9 @@ class Bar {
 
         AbstractModule* clock = FactoryModule::createClock();
         this->attachModule(clock);
+
+        AbstractModule* battery = FactoryModule::createBattery();
+        this->attachModule(battery);
     }
 
     public:

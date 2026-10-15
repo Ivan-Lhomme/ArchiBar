@@ -4,5 +4,6 @@
 
 #include "../modules/powerButton.cpp"
 #include "../modules/clock.cpp"
+#include "../modules/battery.cpp"
 
 #endif

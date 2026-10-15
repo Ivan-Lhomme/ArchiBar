@@ -10,4 +10,8 @@ class FactoryModule {
         static AbstractModule* createClock() {
             return new Clock;
         }
+
+        static AbstractModule* createBattery() {
+            return new Battery;
+        }
 };
