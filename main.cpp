@@ -2,7 +2,7 @@
 #include <gtk-layer-shell/gtk-layer-shell.h>
 #include "gtk/gtk.h"
 
-#include "barHeaders.hpp"
+#include "headers/barHeaders.hpp"
 
 int main(int argc, char **argv)
 {
