@@ -6,4 +6,8 @@ class FactoryModule {
         static AbstractModule* createPowerButton() {
             return new PowerButton;
         }
+
+        static AbstractModule* createClock() {
+            return new Clock;
+        }
 };

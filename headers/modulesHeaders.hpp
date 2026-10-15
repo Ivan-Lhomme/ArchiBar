@@ -3,5 +3,6 @@
 #define __MODULESHEADERS_H__
 
 #include "../modules/powerButton.cpp"
+#include "../modules/clock.cpp"
 
 #endif

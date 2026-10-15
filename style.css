@@ -8,3 +8,7 @@ window {
     box-shadow: none;
     color: white;
 }
+
+#clock-module {
+    color: white;
+}

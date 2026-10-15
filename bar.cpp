@@ -51,6 +51,9 @@ class Bar {
     void addModules() {
         AbstractModule* powerButton = FactoryModule::createPowerButton();
         this->attachModule(powerButton);
+
+        AbstractModule* clock = FactoryModule::createClock();
+        this->attachModule(clock);
     }
 
     public:
