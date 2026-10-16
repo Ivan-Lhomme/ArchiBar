@@ -49,7 +49,7 @@ class Battery : public AbstractModule {
             "battery-level-0";
 
         if (isCharging()) {
-            iconName.append("-charging");
+            iconName.append(capacity == 100 ? "-charged" : "-charging");
         }
 
         iconName.append("-symbolic");
