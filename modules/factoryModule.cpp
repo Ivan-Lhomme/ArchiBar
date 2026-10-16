@@ -14,4 +14,8 @@ class FactoryModule {
         static AbstractModule* createBattery() {
             return new Battery;
         }
+
+        static AbstractModule* createVolume() {
+            return new Volume;
+        }
 };

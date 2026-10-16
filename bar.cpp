@@ -51,6 +51,9 @@ class Bar {
 
         AbstractModule* battery = FactoryModule::createBattery();
         this->attachModule(battery);
+
+        AbstractModule* volume = FactoryModule::createVolume();
+        this->attachModule(volume);
     }
 
     static void loadCSS() {
@@ -69,8 +72,12 @@ class Bar {
                 color: white;
             }
 
-            #clock-module, #battery-module {
+            #clock-module, #battery-module, #volume-module {
                 padding: 5px;
+            }
+
+            #battery-module label, #volume-module label {
+                padding-right: 5px;
             }
         )";
 
