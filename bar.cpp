@@ -30,14 +30,8 @@ class Bar {
         gtk_widget_set_size_request(GTK_WIDGET(this->window), 0, BAR_HEIGHT);
         gtk_window_resize(GTK_WINDOW(this->window), 1, 1);
 
-        GtkCssProvider* cssProvider = gtk_css_provider_new();
-
-        gtk_css_provider_load_from_path(cssProvider, "style.css", nullptr);
-        gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(cssProvider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
         gtk_container_add(GTK_CONTAINER(this->window), GTK_WIDGET(this->mainContainer));
-
-        g_object_ref(cssProvider);
+        loadCSS();
     }
 
     void attachActions() {
@@ -57,6 +51,43 @@ class Bar {
 
         AbstractModule* battery = FactoryModule::createBattery();
         this->attachModule(battery);
+    }
+
+    static void loadCSS() {
+        GtkCssProvider* cssProvider = gtk_css_provider_new();
+
+        const char* css = R"(
+            window {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            #power-button-module button {
+                background: none;
+                border: 0;
+                box-shadow: none;
+                color: white;
+            }
+
+            #clock-module {
+                color: white;
+                padding: 5px;
+            }
+        )";
+
+        gtk_css_provider_load_from_data(
+            cssProvider,
+            css,
+            -1,
+            nullptr
+        );
+
+        gtk_style_context_add_provider_for_screen(
+            gdk_screen_get_default(),
+            GTK_STYLE_PROVIDER(cssProvider),
+            GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+        );
+
+        g_object_unref(cssProvider);
     }
 
     public:
