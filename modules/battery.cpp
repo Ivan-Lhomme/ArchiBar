@@ -76,7 +76,7 @@ class Battery : public AbstractModule {
 
             gtk_container_add(GTK_CONTAINER(container), label);
             gtk_container_add(GTK_CONTAINER(container), batteryIcon);
-            gtk_widget_set_name(container, "clock-module");
+            gtk_widget_set_name(container, "battery-module");
 
             g_timeout_add(1000, updateBattery, this);
         }

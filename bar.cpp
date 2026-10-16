@@ -59,6 +59,7 @@ class Bar {
         const char* css = R"(
             window {
                 background-color: rgba(0, 0, 0, 0.5);
+                color: white;
             }
 
             #power-button-module button {
@@ -68,8 +69,7 @@ class Bar {
                 color: white;
             }
 
-            #clock-module {
-                color: white;
+            #clock-module, #battery-module {
                 padding: 5px;
             }
         )";
