@@ -18,4 +18,8 @@ class FactoryModule {
         static AbstractModule* createVolume() {
             return new Volume;
         }
+
+        static AbstractModule* createNetwork() {
+            return new Network;
+        }
 };

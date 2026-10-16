@@ -6,5 +6,6 @@
 #include "../modules/clock.cpp"
 #include "../modules/battery.cpp"
 #include "../modules/volume.cpp"
+#include "../modules/network.cpp"
 
 #endif
