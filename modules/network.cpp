@@ -14,9 +14,9 @@ class Network : public AbstractModule {
             wifiName += buffer;
         }
 
-        if (wifiName.back() == '\n') wifiName.pop_back();
+        if (!wifiName.empty() && wifiName.back() == '\n') wifiName.pop_back();
         pclose(resultCmd);
-        return wifiName;
+        return wifiName.empty() ? "" : wifiName;
     }
 
     static int getSignalStrength() {
@@ -44,12 +44,11 @@ class Network : public AbstractModule {
     }
 
     static std::string getNetworkIconName() {
-        int signalStrength = getSignalStrength();
-
         if (!isConnected()) {
             return "network-wireless-offline-symbolic";
         }
 
+        int signalStrength = getSignalStrength();
         return
             signalStrength >= -50 ? "network-wireless-signal-excellent-symbolic" :
             signalStrength >= -60 ? "network-wireless-signal-good-symbolic" :
@@ -88,6 +87,6 @@ class Network : public AbstractModule {
             gtk_container_add(GTK_CONTAINER(container), networkIcon);
             gtk_widget_set_name(container, "network-module");
 
-            g_timeout_add(10000, updateNetwork, this);
+            g_timeout_add(1000, updateNetwork, this);
         }
 };
