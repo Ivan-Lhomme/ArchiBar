@@ -52,6 +52,6 @@ class Ram : public AbstractModule {
             gtk_container_add(GTK_CONTAINER(container), ramIcon);
             gtk_widget_set_name(container, "ram-module");
 
-            g_timeout_add(100, updateRam, label);
+            g_timeout_add(1000, updateRam, label);
         }
 };
