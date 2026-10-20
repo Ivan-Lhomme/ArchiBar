@@ -8,5 +8,6 @@
 #include "../modules/volume.cpp"
 #include "../modules/network.cpp"
 #include "../modules/ram.cpp"
+#include "../modules/cpu.cpp"
 
 #endif

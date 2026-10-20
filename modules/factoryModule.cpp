@@ -26,4 +26,8 @@ class FactoryModule {
         static AbstractModule* createRam() {
             return new Ram;
         }
+
+        static AbstractModule* createCpu() {
+            return new Cpu;
+        }
 };
