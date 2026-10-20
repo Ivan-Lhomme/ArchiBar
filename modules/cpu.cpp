@@ -38,8 +38,8 @@ class Cpu : public AbstractModule {
         GtkWidget* cpuIcon = gtk_label_new("\uf4bc");
         
         Cpu() {
-            std::string volumeText = getCpuPercentage() + "%";
-            label = gtk_label_new(volumeText.c_str());
+            std::string cpuText = getCpuPercentage() + "%";
+            label = gtk_label_new(cpuText.c_str());
 
             gtk_container_add(GTK_CONTAINER(container), label);
             gtk_container_add(GTK_CONTAINER(container), cpuIcon);

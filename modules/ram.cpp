@@ -45,8 +45,8 @@ class Ram : public AbstractModule {
         GtkWidget* ramIcon = gtk_label_new("\uEFC5");
         
         Ram() {
-            std::string volumeText = getRamPercentage() + "%";
-            label = gtk_label_new(volumeText.c_str());
+            std::string ramText = getRamPercentage() + "%";
+            label = gtk_label_new(ramText.c_str());
 
             gtk_container_add(GTK_CONTAINER(container), label);
             gtk_container_add(GTK_CONTAINER(container), ramIcon);
