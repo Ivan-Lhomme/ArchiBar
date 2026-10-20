@@ -9,7 +9,7 @@ class Network : public AbstractModule {
     static std::string getWifiName() {
         char buffer[256];
         std::string wifiName;
-        FILE* resultCmd = popen("iwctl station wlan0 show | grep \"network\" | awk \'{print $3}\'", "r");
+        FILE* resultCmd = popen("iwctl station wlan0 show | awk \'/network/ {print $3}\'", "r");
         while (fgets(buffer, sizeof(buffer), resultCmd)) {
             wifiName += buffer;
         }

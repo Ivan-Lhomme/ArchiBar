@@ -57,6 +57,9 @@ class Bar {
 
         AbstractModule* network = FactoryModule::createNetwork();
         this->attachModule(network);
+
+        AbstractModule* ram = FactoryModule::createRam();
+        this->attachModule(ram);
     }
 
     static void loadCSS() {
@@ -75,11 +78,11 @@ class Bar {
                 color: white;
             }
 
-            #clock-module, #battery-module, #volume-module, #network-module {
+            #clock-module, #battery-module, #volume-module, #network-module, #ram-module {
                 padding: 5px;
             }
 
-            #battery-module label, #volume-module label, #network-module label {
+            #battery-module label, #volume-module label, #network-module label, #ram-module label {
                 padding-right: 5px;
             }
         )";

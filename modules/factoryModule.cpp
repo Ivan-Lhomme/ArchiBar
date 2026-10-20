@@ -22,4 +22,8 @@ class FactoryModule {
         static AbstractModule* createNetwork() {
             return new Network;
         }
+
+        static AbstractModule* createRam() {
+            return new Ram;
+        }
 };

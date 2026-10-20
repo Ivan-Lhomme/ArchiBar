@@ -7,5 +7,6 @@
 #include "../modules/battery.cpp"
 #include "../modules/volume.cpp"
 #include "../modules/network.cpp"
+#include "../modules/ram.cpp"
 
 #endif

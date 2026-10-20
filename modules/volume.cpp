@@ -9,7 +9,7 @@ class Volume : public AbstractModule {
     static std::string getVolumePercentage() {
         char buffer[256];
         std::string volumePercentage;
-        FILE* resultCmd = popen("amixer get Master | grep -m 1 \'%\' | awk \'gsub(/[\\[\\]%]/, \"\", $5) {print $5}\'", "r");
+        FILE* resultCmd = popen("amixer get Master | awk \'/%/ {gsub(/[\\[\\]%]/, \"\", $5); print $5; exit}\'", "r");
         while (fgets(buffer, sizeof(buffer), resultCmd)) {
             volumePercentage += buffer;
         }
@@ -22,7 +22,7 @@ class Volume : public AbstractModule {
     static bool isMuted() {
         char buffer[256];
         std::string volumeActif;
-        FILE* resultCmd = popen("amixer get Master | grep -m 1 \'%\' | awk \'gsub(/[\\[\\]]/, \"\", $6) {print $6}\'", "r");
+        FILE* resultCmd = popen("amixer get Master | awk \'/%/ {gsub(/[\\[\\]]/, \"\", $6); print $6; exit}\'", "r");
         while (fgets(buffer, sizeof(buffer), resultCmd)) {
             volumeActif += buffer;
         }
