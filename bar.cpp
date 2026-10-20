@@ -63,6 +63,9 @@ class Bar {
 
         AbstractModule* cpu = FactoryModule::createCpu();
         this->attachModule(cpu);
+
+        AbstractModule* storage = FactoryModule::createStorage();
+        this->attachModule(storage);
     }
 
     static void loadCSS() {

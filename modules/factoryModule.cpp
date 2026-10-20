@@ -30,4 +30,8 @@ class FactoryModule {
         static AbstractModule* createCpu() {
             return new Cpu;
         }
+
+        static AbstractModule* createStorage() {
+            return new Storage;
+        }
 };

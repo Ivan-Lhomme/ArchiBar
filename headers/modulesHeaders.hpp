@@ -9,5 +9,6 @@
 #include "../modules/network.cpp"
 #include "../modules/ram.cpp"
 #include "../modules/cpu.cpp"
+#include "../modules/storage.cpp"
 
 #endif
