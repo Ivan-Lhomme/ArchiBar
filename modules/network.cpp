@@ -6,87 +6,91 @@
 #include "../headers/abstractHeaders.hpp"
 
 class Network : public AbstractModule {
-    static std::string getWifiName() {
-        char buffer[256];
-        std::string wifiName;
-        FILE* resultCmd = popen("iwctl station wlan0 show | awk \'/network/ {print $3}\'", "r");
-        while (fgets(buffer, sizeof(buffer), resultCmd)) {
-            wifiName += buffer;
-        }
-
-        if (!wifiName.empty() && wifiName.back() == '\n') wifiName.pop_back();
-        pclose(resultCmd);
-        return wifiName.empty() ? "" : wifiName;
+  static std::string getWifiName() {
+    char buffer[256];
+    std::string wifiName;
+    FILE *resultCmd =
+        popen("iwctl station wlan0 show | awk \'/network/ {print $3}\'", "r");
+    while (fgets(buffer, sizeof(buffer), resultCmd)) {
+      wifiName += buffer;
     }
 
-    static int getSignalStrength() {
-        char buffer[256];
-        std::string signalStrength;
-        FILE* resultCmd = popen("iwctl station wlan0 show | grep \"AverageRSSI\" | awk \'{print $2}\'", "r");
-        while (fgets(buffer, sizeof(buffer), resultCmd)) {
-            signalStrength += buffer;
-        }
+    if (!wifiName.empty() && wifiName.back() == '\n')
+      wifiName.pop_back();
+    pclose(resultCmd);
+    return wifiName.empty() ? "" : wifiName;
+  }
 
-        pclose(resultCmd);
-        return std::stoi(signalStrength);
+  static int getSignalStrength() {
+    char buffer[256];
+    std::string signalStrength;
+    FILE *resultCmd = popen(
+        "iwctl station wlan0 show | grep \"AverageRSSI\" | awk \'{print $2}\'",
+        "r");
+    while (fgets(buffer, sizeof(buffer), resultCmd)) {
+      signalStrength += buffer;
     }
 
-    static bool isConnected() {
-        char buffer[256];
-        std::string connectionStat;
-        FILE* resultCmd = popen("iwctl station wlan0 show | grep \"State\" | awk \'{print $2}\'", "r");
-        while (fgets(buffer, sizeof(buffer), resultCmd)) {
-            connectionStat += buffer;
-        }
+    pclose(resultCmd);
+    return std::stoi(signalStrength);
+  }
 
-        pclose(resultCmd);
-        return connectionStat == "connected\n";
+  static bool isConnected() {
+    char buffer[256];
+    std::string connectionStat;
+    FILE *resultCmd = popen(
+        "iwctl station wlan0 show | grep \"State\" | awk \'{print $2}\'", "r");
+    while (fgets(buffer, sizeof(buffer), resultCmd)) {
+      connectionStat += buffer;
     }
 
-    static std::string getNetworkIconName() {
-        if (!isConnected()) {
-            return "network-wireless-offline-symbolic";
-        }
+    pclose(resultCmd);
+    return connectionStat == "connected\n";
+  }
 
-        int signalStrength = getSignalStrength();
-        return
-            signalStrength >= -50 ? "network-wireless-signal-excellent-symbolic" :
-            signalStrength >= -60 ? "network-wireless-signal-good-symbolic" :
-            signalStrength >= -70 ? "network-wireless-signal-ok-symbolic" :
-            signalStrength >= -80 ? "network-wireless-signal-weak-symbolic" :
-            "network-wireless-none-symbolic";
+  static std::string getNetworkIconName() {
+    std::string iconName = "network-wireless-";
+
+    if (!isConnected()) {
+      return iconName + "offline-symbolic";
     }
 
-    static gboolean updateNetwork(gpointer data) {
-        Network* networkModule = static_cast<Network*>(data);
+    int signalStrength = getSignalStrength();
+    iconName.append(signalStrength >= -50   ? "signal-excellent-symbolic"
+                    : signalStrength >= -60 ? "signal-good-symbolic"
+                    : signalStrength >= -70 ? "signal-ok-symbolic"
+                    : signalStrength >= -80 ? "signal-weak-symbolic"
+                                            : "signal-none-symbolic");
 
-        gtk_image_set_from_icon_name(
-            GTK_IMAGE(networkModule->networkIcon),
-            getNetworkIconName().c_str(),
-            GTK_ICON_SIZE_MENU
-        );
+    return iconName;
+  }
 
-        gtk_label_set_text(GTK_LABEL(networkModule->label), getWifiName().c_str());
+  static gboolean updateNetwork(gpointer data) {
+    Network *networkModule = static_cast<Network *>(data);
 
-        return G_SOURCE_CONTINUE;
-    }
+    gtk_image_set_from_icon_name(GTK_IMAGE(networkModule->networkIcon),
+                                 getNetworkIconName().c_str(),
+                                 GTK_ICON_SIZE_MENU);
 
-    public:
-        GtkWidget* label;
-        GtkWidget* networkIcon;
-        
-        Network() {
-            this->networkIcon = gtk_image_new_from_icon_name(
-                getNetworkIconName().c_str(),
-                GTK_ICON_SIZE_MENU
-            );
+    gtk_label_set_text(GTK_LABEL(networkModule->label), getWifiName().c_str());
 
-            this->label = gtk_label_new(getWifiName().c_str());
+    return G_SOURCE_CONTINUE;
+  }
 
-            gtk_container_add(GTK_CONTAINER(container), label);
-            gtk_container_add(GTK_CONTAINER(container), networkIcon);
-            gtk_widget_set_name(container, "network-module");
+public:
+  GtkWidget *label;
+  GtkWidget *networkIcon;
 
-            g_timeout_add(1000, updateNetwork, this);
-        }
+  Network() {
+    this->networkIcon = gtk_image_new_from_icon_name(
+        getNetworkIconName().c_str(), GTK_ICON_SIZE_MENU);
+
+    this->label = gtk_label_new(getWifiName().c_str());
+
+    gtk_container_add(GTK_CONTAINER(container), label);
+    gtk_container_add(GTK_CONTAINER(container), networkIcon);
+    gtk_widget_set_name(container, "network-module");
+
+    g_timeout_add(1000, updateNetwork, this);
+  }
 };
